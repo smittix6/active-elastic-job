@@ -18,6 +18,7 @@ module ActiveJob
     class ActiveElasticJobAdapter
       MAX_MESSAGE_SIZE = (256 * 1024)
       MAX_DELAY_IN_MINUTES = 15
+      MESSAGE_GROUP_ID = 'ActiveElasticJobMessage'
 
       extend ActiveElasticJob::MD5MessageDigestCalculation
 
@@ -121,6 +122,7 @@ module ActiveJob
             queue_url: queue_url(queue_name),
             message_body: serialized_job,
             delay_seconds: calculate_delay(timestamp),
+            message_group_id: MESSAGE_GROUP_ID
             message_attributes: {
               "message-digest".freeze => {
                 string_value: message_digest(serialized_job),
