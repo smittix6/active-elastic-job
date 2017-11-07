@@ -122,7 +122,8 @@ module ActiveJob
             queue_url: queue_url(queue_name),
             message_body: serialized_job,
             delay_seconds: calculate_delay(timestamp),
-            message_group_id: MESSAGE_GROUP_ID,
+            message_group_id: 'ActiveElasticJobMessage',
+            message_deduplication_id: SecureRandom.uuid,
             message_attributes: {
               "message-digest".freeze => {
                 string_value: message_digest(serialized_job),
